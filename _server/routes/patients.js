@@ -1,6 +1,4 @@
-const patientsRoutes = require('express').Router();
-
-// # PATIENTS ROUTES
+const knex = require('../knex')
 
 const patientsAll = async (req, res) => {
     const patients = await knex('patients');
