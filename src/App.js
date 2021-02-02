@@ -11,9 +11,8 @@ import Patient from "./pages/Patient";
 import { Header } from "./components/header"
 
 function App(){
-    const date = Date.now()
-    console.log(date)
-    return (
+
+  return (
     <div className="container">
         
       <Router>
@@ -23,13 +22,13 @@ function App(){
               <Route path="/" exact>
                 <Home />
               </Route>
-              <Route path="/patients">
+              <Route path="/patients" exact>
                 <Patients />
               </Route>
               <Route path="/appointments">
                 <Appointments />
               </Route>
-              <Route path="/patient/:id">
+              <Route path="/patients/:id">
                 <Patient />
               </Route>
             </Switch>
