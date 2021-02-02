@@ -6,9 +6,9 @@ const patientsAll = async (req, res) => {
 };
 
 const patientsOne = async (req, res) => {
-    const { patientId } = req.params;
+    const { id } = req.params;
 
-    if (!patientId || patientId <= 0) {
+    if (!id || id <= 0) {
         res.json({
             success: false,
             error: 'Invalid ID!'
@@ -16,7 +16,7 @@ const patientsOne = async (req, res) => {
         return;
     }
 
-    const patient = await knex('patients').where('id', patientId);
+    const patient = await knex('patients').where('id', id);
 
     if (!patient || patient.length === 0) {
         res.json({
@@ -33,11 +33,14 @@ const patientsOne = async (req, res) => {
 };
 
 const patientsCreate = async (req, res) => {
-    const { name, allergies } = req.body;
+    const { name, birthday, email, phone, allergies } = req.body;
 
     try {
         await knex('patients').insert({
             name,
+            birthday,
+            email,
+            phone,
             allergies
         })
         const results = await knex("patients").select("id").orderBy("id", "desc").limit(1)
@@ -58,31 +61,31 @@ const patientsCreate = async (req, res) => {
 };
 
 const patientsDelete = async (req, res) => {
-    const { patientId } = req.params;
+    const { id } = req.params;
 
-    if (!patientId || patientId <= 0) {
+    if (!id || id <= 0) {
         res.json({
             success: false,
-            error: 'mesaju..'
+            error: 'Invalid ID!'
         });
         return;
     }
 
-    const patient = await knex('patients').where('id', patientId);
+    const patient = await knex('patients').where('id', id);
 
     if (!patient || patient.length === 0) {
         res.json({
             success: false,
-            error: 'mesaju2..'
+            error: 'There is no patient with that ID!'
         });
         return;
     }
 
-    await knex('patients').where('id', patientId).delete()
+    await knex('patients').where('id', id).delete()
 
     res.json({
         success: true,
-        id: patientId
+        id
     });
 };
 

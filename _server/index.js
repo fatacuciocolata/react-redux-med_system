@@ -24,6 +24,9 @@ const initDefaultTables = async () => {
         await knex.schema.createTable('patients', function (table) {
             table.increments('id').primary();
             table.string('name', 255);
+            table.integer('birthday');
+            table.string('email', 255);
+            table.string('phone', 255);
             table.text('allergies');
         });
     }
@@ -32,7 +35,8 @@ const initDefaultTables = async () => {
         await knex.schema.createTable('appointments', function (table) {
             table.increments('id').primary();
             table.integer('date');
-            table.text('treatments');
+            table.text('time');
+            table.text('treatments').nullable();
             table.integer('patientId');
 
             table.foreign('patientId').references('id').inTable('patients');
@@ -46,15 +50,16 @@ app.get('/', (req, res) => {
 
 // # PATIENTS ROUTES
 app.get('/patients', patients.all);
-app.get('/patients/:patientId', patients.one);
+app.get('/patients/:id', patients.one);
 app.post('/addPatient', patients.create);
-app.delete('/patients/:patientId', patients.delete);
+app.delete('/patients/:id', patients.delete);
 
 // # APPOINTMENTS ROUTES
 app.get('/appointments', appointments.all);
-app.get('/appointments/:appointmentId', appointments.one);
+app.get('/appointmentsByPatientId/:id', appointments.allByPatientId);
+app.get('/appointments/:id', appointments.one);
 app.post('/addAppointment', appointments.create);
-app.delete('/appointments/:appointmentId', appointments.delete);
+app.delete('/appointments/:id', appointments.delete);
 
 app.listen(port, () => {
     initDefaultTables();

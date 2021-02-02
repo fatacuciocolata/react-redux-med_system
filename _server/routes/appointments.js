@@ -1,7 +1,11 @@
 const knex = require('../knex')
 
 const appointmentsAll = async (req, res) => {
-    const appointments = await knex('appointments');
+    const appointments = await knex('appointments')
+        .join('patients', 'appointments.patientId', '=', 'patients.id')
+        .select('appointments.*', 'patients.name')
+        .orderBy('date', 'desc');
+    console.log(appointments)
     res.json(appointments);
 }
 
@@ -33,11 +37,12 @@ const appointmentsOne = async (req, res) => {
 };
 
 const appointmentsCreate = async (req, res) => {
-    const { date, treatments, patientId } = req.body;
+    const { date, time, treatments, patientId } = req.body;
 
     try {
         await knex('appointments').insert({
             date,
+            time,
             treatments,
             patientId
         })
@@ -87,10 +92,36 @@ const appointmentsDelete = async (req, res) => {
     });
 };
 
+const appointmentsByPatiendId = async(req, res) => {
+    const { id } = req.params;
+
+    if (!id || id <= 0) {
+        res.json({
+            success: false,
+            error: 'Invalid ID!'
+        });
+        return;
+    }
+
+    const appointments = await knex('appointments').where('patientId', id);
+
+    if (!appointments || appointments.length === 0) {
+        res.json({
+            success: false,
+            error: 'There are no appointment for that patient!'
+        });
+        return;
+    }
+
+    res.json(appointments);
+
+}
 
 module.exports = {
     all: appointmentsAll,
+    allByPatientId: appointmentsByPatiendId,
     one: appointmentsOne,
     create: appointmentsCreate,
-    delete: appointmentsDelete
+    delete: appointmentsDelete,
+    
 }
