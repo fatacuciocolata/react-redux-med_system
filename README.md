@@ -1,6 +1,6 @@
 # react-redux-med_system
 
-Med System is a concept of administrating patients and appointments
+Med System is a concept of administrating patients and appointments.
 It implements the idea of PAS (Patient Administration System) but in a less complicated form
 
 ## Back-end 
@@ -16,6 +16,6 @@ It implements the idea of PAS (Patient Administration System) but in a less comp
 
 ## Functionalities
 
-Managing patients with custom details and medical history
-Managing appointments with posibility of adding treatments
+* Managing patients with custom details and medical history
+* Managing appointments with posibility of adding treatments
 
