@@ -12,6 +12,7 @@ It implements the idea of PAS (Patient Administration System) but in a less comp
 ## Front-end
 
 * React.js 
+* Redux
 * Axios 
 
 ## Functionalities
