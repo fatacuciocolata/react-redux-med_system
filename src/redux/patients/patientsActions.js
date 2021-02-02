@@ -1,7 +1,6 @@
 import axios from "axios"
 
 export const FETCH_PATIENTS = "FETCH_PATIENTS";
-export const SINGLE_PATIENT = "SINGLE_PATIENT";
 export const CREATE_PATIENT = "CREATE_PATIENT";
 export const DELETE_PATIENT = "DELETE_PATIENT"
 
@@ -16,7 +15,6 @@ export const fetchPatients = () => async (dispatch) => {
     payload: res.data
   });
 };
-
 
 // CREATE NEW PATIENT
 export const createPatient = (data) => async (dispatch) => {

@@ -1,4 +1,4 @@
-import { FETCH_PATIENTS , CREATE_PATIENT, DELETE_PATIENT, SHOW_ERRORS, SINGLE_PATIENT } from "./patientsActions"
+import { FETCH_PATIENTS , CREATE_PATIENT, DELETE_PATIENT, SHOW_ERRORS } from "./patientsActions"
 
 const initialState = { 
     loading: true,
