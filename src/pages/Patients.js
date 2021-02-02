@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPatients, deletePatient, showErrors } from "../redux/patients/patientsActions"
 import { Patient } from "../components/Patients/patient"
 import { AddPatient } from "../components/Patients/addPatient"
+import { AddAppointment } from "../components/Appointments/addApointment"
 import { Modal } from "../components/_modal/modal"
 import { Search } from "../components/search"
 import { AddPlus } from "../components/_icons/icons"
@@ -17,7 +18,9 @@ function Patients() {
     const state = useSelector(state => state.patients)
     const {loading, errors, patients} = state
 
-    const [isAdding, setIsAdding] = useState(false)
+    const [isAddingPatient, setIsAddingPatient] = useState(false)
+    const [isAddingAppointment, setIsAddingAppointment] = useState(false)
+    const [patientToAppt, setPatientToAppt] = useState(null)
     const [isDeleting, setIsDeleting] = useState(false)
     const [itemToDelete, setItemToDelete] = useState(null)
 
@@ -29,7 +32,7 @@ function Patients() {
         }
     },[dispatch])
 
-    
+    console.log(isAddingAppointment)
     // if user accepts the modal answer
     const onAcceptDelete = () => {
         setIsDeleting(false);
@@ -46,17 +49,18 @@ function Patients() {
         <div className="wrapper">
             <div className="top-headline">
                 <h3>Patients</h3>
-                <button onClick={ () => { setIsAdding(true) } }><AddPlus />New Patient</button>
+                <button onClick={ () => { setIsAddingPatient(true) } }><AddPlus />New Patient</button>
             </div>
             
             <Search />
             <table>
                 <thead>
                     <tr>
-                        <th>NAME</th>
-                        <th>EMAIL</th>
-                        <th>PHONE</th>
-                        <th>ACTIONS</th>
+                        <th>Name</th>
+                        <th>E-mail</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                        <th>Appointments</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,13 +70,27 @@ function Patients() {
                     {
                         patients.length > 0
                         &&
-                        patients.map(patient => <Patient key={patient.id} patient={patient} setItemToDelete={setItemToDelete} />)
+                        patients.map(patient => 
+                            <Patient 
+                                key={patient.id} 
+                                patient={patient} 
+                                setItemToDelete={setItemToDelete} 
+                                setIsAddingAppointment={setIsAddingAppointment}
+                                setPatientToAppt={setPatientToAppt}
+                            />
+                        )
                     }
                 </tbody>
             </table>
-            {isAdding && 
+            {isAddingPatient && 
                 <AddPatient 
-                    onSubmit={() => setIsAdding(false)}
+                    onSubmit={() => setIsAddingPatient(false)}
+                />
+            }
+            {isAddingAppointment &&
+                <AddAppointment 
+                    patientToAppt={patientToAppt}
+                    onSubmit={() => setIsAddingAppointment(false)} 
                 />
             }
             {itemToDelete && 
@@ -84,7 +102,7 @@ function Patients() {
                         setIsDeleting(false)
                     }} 
                 />
-                }
+            }
         </div>
     )
 }
