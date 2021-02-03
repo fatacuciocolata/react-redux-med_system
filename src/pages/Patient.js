@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom";
 import axios from "axios"
+import date from "../utils/date"
 import { Appointment } from "../components/Appointments/appointment";
-
-const EmptyTrMessage = ({ message }) => {
-    return <tr><td colSpan="4">{message}</td></tr>
-};
+import { EmptyTr } from "../utils/date"
 
 function Patient() {
     const [isLoading, setIsLoading] = useState(false);
     const [patient, setPatient] = useState("")
     const [appointments, setAppointments] = useState([])
     const { id } = useParams()
-
+    
     useEffect(() => {
         const fetchPatient = async () => {
             setIsLoading(true);
@@ -20,6 +18,7 @@ function Patient() {
             setPatient(res.data.data)
             setIsLoading(false);
         }
+   
         fetchPatient()
     },[])
 
@@ -43,7 +42,7 @@ function Patient() {
                 <div>
                     <h4>Details</h4>
                     <p>Name: {patient.name}</p>
-                    <p>Birthday: {patient.birthday}</p>
+                    <p>Birthday: {date('d-m-Y', patient.birthday/1000)}</p>
                     <p>Phone: {patient.phone}</p>
                     <p>Email: {patient.email}</p>
                     <p>Allergies: {patient.allergies}</p>
@@ -63,7 +62,7 @@ function Patient() {
 
                         {/* {(loading === false && typeof errors.message !== "undefined") && <EmptyTrMessage message={<p style={{color: "#cc0000"}}>{errors.message}</p>} />}                        
                         {loading && <EmptyTrMessage message="Loading..." />} */}
-                        {appointments.error && <EmptyTrMessage message={<p style={{fontStyle: "italic"}}>No appointments found!</p>} />}
+                        {appointments.error && <EmptyTr nrCols="4" message={<p style={{fontStyle: "italic"}}>No appointments found!</p>} />}
                   
                         {
                             appointments.length > 0
