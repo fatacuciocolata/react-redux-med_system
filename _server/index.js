@@ -19,6 +19,7 @@ const initDefaultTables = async () => {
 
     const patientsExists = await knex.schema.hasTable('patients');
     const appointmentsExists = await knex.schema.hasTable('appointments');
+    await knex.raw('PRAGMA foreign_keys = ON');
 
     if (!patientsExists) {
         await knex.schema.createTable('patients', function (table) {
@@ -38,8 +39,10 @@ const initDefaultTables = async () => {
             table.text('time');
             table.text('treatments').nullable();
             table.integer('patientId');
-
-            table.foreign('patientId').references('id').inTable('patients');
+            table.integer('patientId').unsigned() // Add a foreign key (FK)...
+            .references('patients.id') // ...which references Article PK.
+            .onUpdate('CASCADE') // If Article PK is changed, update FK as well.
+            .onDelete('CASCADE') // If Article is deleted, delete Comment as well.
         });
     }
 };

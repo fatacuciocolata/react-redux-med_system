@@ -4,15 +4,15 @@ const appointmentsAll = async (req, res) => {
     const appointments = await knex('appointments')
         .join('patients', 'appointments.patientId', '=', 'patients.id')
         .select('appointments.*', 'patients.name')
-        .orderBy('date', 'desc');
+        .orderBy('date', 'asc');
     console.log(appointments)
     res.json(appointments);
 }
 
 const appointmentsOne = async (req, res) => {
-    const { appointmentId } = req.params;
+    const { id } = req.params;
 
-    if (!appointmentId || appointmentId <= 0) {
+    if (!id || id <= 0) {
         res.json({
             success: false,
             error: 'Invalid ID!'
@@ -20,7 +20,7 @@ const appointmentsOne = async (req, res) => {
         return;
     }
 
-    const appointment = await knex('appointments').where('id', appointmentId);
+    const appointment = await knex('appointments').where('id', id);
 
     if (!appointment || appointment.length === 0) {
         res.json({
@@ -64,9 +64,9 @@ const appointmentsCreate = async (req, res) => {
 }
 
 const appointmentsDelete = async (req, res) => {
-    const { appointmentId } = req.params;
+    const { id } = req.params;
 
-    if (!appointmentId || appointmentId <= 0) {
+    if (!id || id <= 0) {
         res.json({
             success: false,
             error: 'Invalid ID!'
@@ -74,7 +74,7 @@ const appointmentsDelete = async (req, res) => {
         return;
     }
 
-    const appointment = await knex('appointments').where('id', appointmentId);
+    const appointment = await knex('appointments').where('id', id);
 
     if (!appointment || appointment.length === 0) {
         res.json({
@@ -84,11 +84,11 @@ const appointmentsDelete = async (req, res) => {
         return;
     }
 
-    await knex('appointments').where('id', appointmentId).delete()
+    await knex('appointments').where('id', id).delete()
 
     res.json({
         success: true,
-        id: appointmentId
+        id
     });
 };
 
