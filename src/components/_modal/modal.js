@@ -4,9 +4,9 @@ export const Modal = ( {onAccept, onCancel, message} ) => {
   return (
     <div className="modal">
       <div className="modal-content">
-        <span className="close">X</span>
+        <span onClick={onCancel} className="close">X</span>
         <p>{message}</p>
-        <button onClick={onAccept}>Da</button>
+        <button onClick={onAccept}>Yes!</button>
         <button onClick={onCancel}>Cancel</button>
       </div>    
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { createAppointment, showErrors } from "../../redux/appointments/appointmentsActions.js"
 import { useDispatch } from "react-redux";
 
-export const AddAppointment = ( {onSubmit, patientToAppt} ) => {
+export const AddAppointment = ( {onSubmit, patientToAppt, isAddingAppointment} ) => {
     const [date, setDate] = useState("")
     const [time, setTime] = useState("")
     const [treatments, setTreatments] = useState("")
@@ -20,7 +20,8 @@ export const AddAppointment = ( {onSubmit, patientToAppt} ) => {
             treatments,
             patientId: patientToAppt
         }
-        
+        console.log(data)
+
         try {
             dispatch(createAppointment(data))
             onSubmit()
@@ -33,39 +34,43 @@ export const AddAppointment = ( {onSubmit, patientToAppt} ) => {
         setTreatments("")
     }
     return(
-        <div className="add_patient">
-            <h3>Add appointment</h3>
+        <div className="add-appointment">
+            <div className="add-appointment-content">
+                <span onClick={ () => isAddingAppointment(false)} className="close">X</span>
+                <h3>Add appointment</h3>
 
-            <form>
-                <div>
-                    <label htmlFor="date">Date</label>
-                    <input 
-                        id="date"
-                        type="date" 
-                        value={date}
-                        onChange={ e => setDate(e.target.value) }
-                    />
-                </div>
-                <div>
-                    <label htmlFor="time">Time</label>
-                    <input 
-                        id="time"
-                        type="time" 
-                        value={time}
-                        onChange={ e => setTime(e.target.value) }
-                    />
-                </div>
-                <div>
-                    <label htmlFor="treatments">Treatments</label>
-                    <input 
-                        id="allergies"
-                        type="text" 
-                        value={treatments}
-                        onChange={ e => setTreatments(e.target.value) }
-                    />
-                </div>
-                <button onClick={handleSubmit}>Submit</button>
-            </form>
+                <form>
+                    <div>
+                        <label htmlFor="date">Date</label>
+                        <input 
+                            id="date"
+                            type="date" 
+                            value={date}
+                            onChange={ e => setDate(e.target.value) }
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="time">Time</label>
+                        <input 
+                            id="time"
+                            type="time" 
+                            value={time}
+                            onChange={ e => setTime(e.target.value) }
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="treatments">Treatments</label>
+                        <input 
+                            id="allergies"
+                            type="text" 
+                            value={treatments}
+                            onChange={ e => setTreatments(e.target.value) }
+                        />
+                    </div>
+                    <button onClick={handleSubmit}>Submit</button>
+                    <button onClick={() => isAddingAppointment(false)}>Cancel</button>
+                </form>
+            </div>
         </div>
     )
 }
