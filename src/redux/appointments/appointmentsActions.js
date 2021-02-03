@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const FETCH_APPOINTMENTS = "FETCH_APPOINTMENTS";
 export const CREATE_APPOINTMENT = "CREATE_APPOINTMENT";
-export const DELETE_APPOINTMENT = "CREATE_APPOINTMENT"
+export const DELETE_APPOINTMENT = "DELETE_APPOINTMENT"
 
 export const SHOW_ERRORS = "SHOW_ERRORS"
 
@@ -23,16 +23,17 @@ export const createAppointment = (data) => async (dispatch) => {
 
   dispatch({
     type: CREATE_APPOINTMENT,
-      payload: {
-            id: id,
-            ...data,
-      }  });
+    payload: {
+      id: id,
+      ...data,
+      }  
+    });
 };
 
 // DELETE APPOINTMENT
 export const deleteAppointment = (id) => async (dispatch) => {
   console.log("deleted appointment", id);
-  await axios.delete(
+  const res = await axios.delete(
     `http://localhost:8000/appointments/${id}`
   );
 

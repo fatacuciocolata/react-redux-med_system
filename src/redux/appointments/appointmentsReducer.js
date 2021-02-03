@@ -23,7 +23,7 @@ export default function appointmentsReducer(state = initialState, action) {
             }
         case DELETE_APPOINTMENT:
             const { id } = action.payload;
-            console.log("id", id)
+            console.log("in reducer")
             return { 
                 ...state, 
                 loading: false,
